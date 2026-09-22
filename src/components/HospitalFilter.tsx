@@ -1,5 +1,6 @@
-import { Search, SlidersHorizontal } from 'lucide-react';
-import { HospitalFilterOptions } from '../types/HospitalTypes';
+import { useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { HospitalFilterOptions } from "../types/HospitalTypes";
 
 interface HospitalFilterProps {
   filters: HospitalFilterOptions;
@@ -8,69 +9,124 @@ interface HospitalFilterProps {
   specialties: string[];
 }
 
-export default function HospitalFilter({ filters, onChange, countries, specialties }: HospitalFilterProps) {
+export default function HospitalFilter({
+  filters,
+  onChange,
+  countries,
+  specialties,
+}: HospitalFilterProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4">
       <div className="flex items-center gap-2 mb-3">
         <SlidersHorizontal className="w-4 h-4 text-gray-500" />
-        <span className="text-sm font-medium text-gray-700">Filters</span>
+
+        <span className="text-sm font-medium text-gray-700">
+          Filters
+        </span>
+
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="ml-auto text-sm text-teal-600 hover:text-teal-700"
         >
-          {isExpanded ? 'Less' : 'More'}
+          {isExpanded ? "Less" : "More"}
         </button>
       </div>
 
+      {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+
         <input
           type="text"
           placeholder="Search hospitals..."
-          value={filters.searchQuery || ''}
-          onChange={(e) => onChange({ ...filters, searchQuery: e.target.value })}
+          value={filters.searchQuery || ""}
+          onChange={(e) =>
+            onChange({
+              ...filters,
+              searchQuery: e.target.value,
+            })
+          }
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
         />
       </div>
 
+      {/* Expanded Filters */}
       {isExpanded && (
         <div className="mt-4 space-y-4">
+
+          {/* Country */}
           <div>
-            <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">Country</label>
+            <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">
+              Country
+            </label>
+
             <select
-              value={filters.country || ''}
-              onChange={(e) => onChange({ ...filters, country: e.target.value })}
+              value={filters.country || ""}
+              onChange={(e) =>
+                onChange({
+                  ...filters,
+                  country: e.target.value,
+                })
+              }
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
             >
               <option value="">All Countries</option>
-              {countries.map((c) => (
-                <option key={c} value={c}>{c}</option>
+
+              {countries.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
               ))}
             </select>
           </div>
 
+          {/* Specialty */}
           <div>
-            <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">Specialty</label>
+            <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">
+              Specialty
+            </label>
+
             <select
-              value={filters.specialty || ''}
-              onChange={(e) => onChange({ ...filters, specialty: e.target.value })}
+              value={filters.specialty || ""}
+              onChange={(e) =>
+                onChange({
+                  ...filters,
+                  specialty: e.target.value,
+                })
+              }
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
             >
               <option value="">All Specialties</option>
-              {specialties.map((s) => (
-                <option key={s} value={s}>{s}</option>
+
+              {specialties.map((specialty) => (
+                <option key={specialty} value={specialty}>
+                  {specialty}
+                </option>
               ))}
             </select>
           </div>
 
+          {/* Fee and Rating */}
           <div className="grid grid-cols-2 gap-3">
+
+            {/* Maximum Fee */}
             <div>
-              <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">Max Fee</label>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">
+                Max Fee
+              </label>
+
               <select
-                value={filters.maxConsultationFee || ''}
-                onChange={(e) => onChange({ ...filters, maxConsultationFee: e.target.value ? Number(e.target.value) : undefined })}
+                value={filters.maxConsultationFee || ""}
+                onChange={(e) =>
+                  onChange({
+                    ...filters,
+                    maxConsultationFee: e.target.value
+                      ? Number(e.target.value)
+                      : undefined,
+                  })
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               >
                 <option value="">Any</option>
@@ -79,11 +135,23 @@ export default function HospitalFilter({ filters, onChange, countries, specialti
                 <option value="200">Up to $200</option>
               </select>
             </div>
+
+            {/* Minimum Rating */}
             <div>
-              <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">Min Rating</label>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1 block">
+                Min Rating
+              </label>
+
               <select
-                value={filters.minRating || ''}
-                onChange={(e) => onChange({ ...filters, minRating: e.target.value ? Number(e.target.value) : undefined })}
+                value={filters.minRating || ""}
+                onChange={(e) =>
+                  onChange({
+                    ...filters,
+                    minRating: e.target.value
+                      ? Number(e.target.value)
+                      : undefined,
+                  })
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               >
                 <option value="">Any</option>
@@ -92,6 +160,7 @@ export default function HospitalFilter({ filters, onChange, countries, specialti
                 <option value="4.5">4.5+</option>
               </select>
             </div>
+
           </div>
         </div>
       )}
